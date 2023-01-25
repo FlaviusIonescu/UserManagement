@@ -1,0 +1,1 @@
+insert into user_data(id, username, password , status) values(nextval('user_id_sequence'), 'flavius@home.com','password', 1);
