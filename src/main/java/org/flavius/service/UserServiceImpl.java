@@ -1,5 +1,6 @@
 package org.flavius.service;
 
+import org.flavius.dto.UserDto;
 import org.flavius.entity.Status;
 import org.flavius.entity.UserEntity;
 import org.flavius.repository.UserRepository;
@@ -7,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,8 +24,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findAll() {
-        return userRepository.findAll();
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream().map(u -> {
+                    UserDto dto = new UserDto();
+                    dto.setUsername(u.getUsername());
+                    dto.setStatus(u.getStatus().name());
+                    return dto;
+                }).sorted(Comparator.comparing(UserDto::getUsername))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -38,10 +47,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void toggleStatus(String username, Status status) {
+    public void toggleStatus(String username) {
         UserEntity entity = userRepository.findByUsername(username);
         if (entity != null) {
-            entity.setStatus(status);
+            if (entity.getStatus().equals(Status.ACTIVE)) {
+                entity.setStatus(Status.DISABLED);
+            } else {
+                entity.setStatus(Status.ACTIVE);
+            }
         }
         // TODO - handle not found
     }
@@ -58,11 +71,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updatePassword(String username, String password) {
-        UserEntity entity = userRepository.findByUsername(username);
-        if (entity != null) {
-            // TODO - BCryptPasswordEncoder for password encoding
-            entity.setPassword(password);
+    public void updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword) {
+        if (!confirmedPassword.equals(newPassword)) {
+            // TODO - throw exception
+        }
+        if (!oldPassword.equals(newPassword)) {
+            UserEntity entity = userRepository.findByUsername(username);
+            if (entity != null) {
+                // TODO - BCryptPasswordEncoder for password encoding
+                entity.setPassword(newPassword);
+            }
         }
         // TODO - handle not found
     }
