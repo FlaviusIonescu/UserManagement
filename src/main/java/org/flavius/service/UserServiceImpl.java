@@ -5,6 +5,7 @@ import org.flavius.entity.Status;
 import org.flavius.entity.UserEntity;
 import org.flavius.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserEntity findByUserName(String username) {
@@ -37,10 +41,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void create(String username, String password) {
+        //TODO - email matcher for username
         UserEntity entity = new UserEntity();
         entity.setUsername(username);
-        // TODO - BCryptPasswordEncoder for password encoding
-        entity.setPassword(password);
+        entity.setPassword(passwordEncoder.encode(password));
         entity.setStatus(Status.ACTIVE);
         userRepository.save(entity);
     }
@@ -75,11 +79,10 @@ public class UserServiceImpl implements UserService {
         if (!confirmedPassword.equals(newPassword)) {
             // TODO - throw exception
         }
-        if (!oldPassword.equals(newPassword)) {
-            UserEntity entity = userRepository.findByUsername(username);
-            if (entity != null) {
-                // TODO - BCryptPasswordEncoder for password encoding
-                entity.setPassword(newPassword);
+        UserEntity entity = userRepository.findByUsername(username);
+        if (entity != null) {
+            if (!passwordEncoder.matches(newPassword, entity.getPassword())) {
+                entity.setPassword(passwordEncoder.encode(newPassword));
             }
         }
         // TODO - handle not found

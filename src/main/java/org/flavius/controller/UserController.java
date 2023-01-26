@@ -8,35 +8,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<UserDto> allUsers() {
         return userService.findAll();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     void createUser(@RequestBody UserDto userDto) {
         userService.create(userDto.getUsername(), userDto.getPassword());
     }
 
-    @PostMapping("/toggle/")
+    @PostMapping("/toggle")
     void toggleUser(@RequestBody String username) {
         userService.toggleStatus(username);
     }
 
-    @PostMapping("/change/")
+    @PostMapping("/change")
     void changePassword(@RequestBody ChangePasswordDto pass) {
         userService.updatePassword(pass.getUsername(), pass.getOldPassword(), pass.getNewPassword(), pass.getConfirmedPassword());
     }
 
-    @DeleteMapping("/{username}")
+    @DeleteMapping("/delete")
     void deleteUser(@RequestParam String username) {
         userService.delete(username);
     }
