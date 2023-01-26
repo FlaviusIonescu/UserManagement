@@ -3,6 +3,9 @@ package org.flavius.service;
 import org.flavius.dto.UserDto;
 import org.flavius.entity.Status;
 import org.flavius.entity.UserEntity;
+import org.flavius.exception.PasswordMismatchException;
+import org.flavius.exception.UserNotFoundException;
+import org.flavius.exception.WrongCredentialsException;
 import org.flavius.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,8 +26,12 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserEntity findByUserName(String username) {
-        return userRepository.findByUsername(username);
+    public UserEntity findByUserName(String username) throws UserNotFoundException {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity != null) {
+            return userEntity;
+        }
+        throw new UserNotFoundException(username);
     }
 
     @Override
@@ -51,41 +58,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void toggleStatus(String username) {
-        UserEntity entity = userRepository.findByUsername(username);
-        if (entity != null) {
-            if (entity.getStatus().equals(Status.ACTIVE)) {
-                entity.setStatus(Status.DISABLED);
-            } else {
-                entity.setStatus(Status.ACTIVE);
-            }
+    public void toggleStatus(String username) throws UserNotFoundException {
+        UserEntity entity = this.findByUserName(username);
+        if (entity.getStatus().equals(Status.ACTIVE)) {
+            entity.setStatus(Status.DISABLED);
+        } else {
+            entity.setStatus(Status.ACTIVE);
         }
-        // TODO - handle not found
     }
 
     @Override
     @Transactional
-    public void delete(String username) {
-        UserEntity entity = userRepository.findByUsername(username);
-        if (entity != null) {
-            userRepository.delete(entity);
-        }
-        // TODO - handle not found
+    public void delete(String username) throws UserNotFoundException {
+        UserEntity entity = this.findByUserName(username);
+        userRepository.delete(entity);
     }
 
     @Override
     @Transactional
-    public void updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword) {
+    public void updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword)
+            throws UserNotFoundException, PasswordMismatchException, WrongCredentialsException {
         if (!confirmedPassword.equals(newPassword)) {
-            // TODO - throw exception
+            throw new PasswordMismatchException();
         }
-        UserEntity entity = userRepository.findByUsername(username);
-        if (entity != null) {
-            if (!passwordEncoder.matches(newPassword, entity.getPassword())) {
-                entity.setPassword(passwordEncoder.encode(newPassword));
-            }
+        UserEntity entity = this.findByUserName(username);
+        if (!passwordEncoder.matches(oldPassword, entity.getPassword())) {
+            throw new WrongCredentialsException();
         }
-        // TODO - handle not found
+        // save password only if the new one is different
+        if (!passwordEncoder.matches(newPassword, entity.getPassword())) {
+            entity.setPassword(passwordEncoder.encode(newPassword));
+        }
     }
 
 }
