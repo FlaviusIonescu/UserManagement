@@ -1,20 +1,24 @@
-<form (ngSubmit)="doLogin()" #userForm="ngForm">
-    <div [ngClass]="{ 'has-error': userForm.submitted && !username.valid }">
-        <label for="username">Username</label>
-        <input type="text"
-          name="username" [(ngModel)]="user.username"
-            #username="ngModel" required />
-        <div *ngIf="userForm.submitted
-          && !username.valid">Username is required</div>
+<div class="container-fluid">
+  <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+    <h2>Login details</h2>
+  
+    <div class="form-group">
+      <label>Email:</label>
+      <input [class.is-invalid] = "getEmail?.touched && getEmail?.invalid"
+	    type="email" class="form-control" formControlName="email" />
+    </div>'
+    
+    <div *ngIf="(getEmail?.invalid && getEmail?.touched) || getEmail?.dirty">
+    	<small *ngIf="getEmail?.errors?['required']: false" class="text-danger">Primary email is required.</small>
+    	<small *ngIf="getEmail?.errors?['pattern'] : false" class="text-danger">Please provide a valid email address.</small>
+  	</div>
+
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" class="form-control" formControlName="password"/>
     </div>
-    <div [ngClass]="{ 'has-error': userForm.submitted && !password.valid }">
-        <label for="password">Password</label>
-        <input type="password"
-          name="password" [(ngModel)]="user.password"
-            #password="ngModel" required />
-        <div *ngIf="userForm.submitted
-          && !password.valid">Password is required</div>
-    </div>
+  
+    <br>
     <div>
         <button type="submit" class="btn btn-info">Login</button>
     </div>
