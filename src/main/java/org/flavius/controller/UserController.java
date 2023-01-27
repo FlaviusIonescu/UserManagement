@@ -22,12 +22,12 @@ public class UserController {
 
     @PostMapping("/login")
     public boolean login(@RequestBody LoginDto loginDto) throws UserNotFoundException {
+        return true;
+    }
 
-        userService.findByUserName(loginDto.getUsername());
-        int a = 0;
-        a++;
-        return  true;
-
+    @GetMapping("/logout")
+    public boolean logout() {
+        return true;
     }
 
     @GetMapping("")

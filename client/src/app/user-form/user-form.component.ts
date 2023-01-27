@@ -14,7 +14,7 @@ export class UserFormComponent {
 
   constructor(private route: ActivatedRoute,
       private router: Router,
-        private userService: UserService) {
+      private userService: UserService) {
     this.user = new User();
   }
 

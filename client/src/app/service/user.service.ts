@@ -13,10 +13,8 @@ export class UserService {
     this.usersUrl = 'http://localhost:8080/users';
   }
 
-  public logout(user: User) {
-    let params = new HttpParams();
-    params = params.append('username', user.username);
-    return this.http.post<Observable<boolean>>(this.usersUrl + '/logout', params);
+  public logout() {
+    return this.http.get<Observable<boolean>>(this.usersUrl + '/logout');
   }
 
   public login(user: User) {
