@@ -34,4 +34,12 @@ export class AppComponent {
         this.router.navigate(['/login']);
     });
   }
+
+  isLoggedIn() {
+    let token = sessionStorage.getItem('token');
+    if (token) {
+      return true;
+    }
+    return false;
+  }
 }
