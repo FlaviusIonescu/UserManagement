@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream().map(u -> {
                     UserDto dto = new UserDto();
                     dto.setUsername(u.getUsername());
-                    dto.setStatus(u.getStatus().name());
+                    dto.setStatus(u.isEnabled() ? Status.ACTIVE.name() : Status.DISABLED.name());
                     return dto;
                 }).sorted(Comparator.comparing(UserDto::getUsername))
                 .collect(Collectors.toList());
@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService {
         UserEntity entity = new UserEntity();
         entity.setUsername(username);
         entity.setPassword(passwordEncoder.encode(password));
-        entity.setStatus(Status.ACTIVE);
+        entity.setEnabled(true);
+        entity.setRole("ROLE_ADMIN");
         userRepository.save(entity);
     }
 
@@ -60,11 +61,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void toggleStatus(String username) throws UserNotFoundException {
         UserEntity entity = this.findByUserName(username);
-        if (entity.getStatus().equals(Status.ACTIVE)) {
-            entity.setStatus(Status.DISABLED);
-        } else {
-            entity.setStatus(Status.ACTIVE);
-        }
+        entity.setEnabled(!entity.isEnabled());
     }
 
     @Override

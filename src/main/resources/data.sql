@@ -1,1 +1,1 @@
-insert into user_data(id, username, password , status) values(nextval('user_id_sequence'), 'flavius@home.com','password', 0);
+insert into user_data(id, username, password , enabled, role) values(nextval('user_id_sequence'), 'flavius@home.com','password', 1, 'ROLE_ADMIN');

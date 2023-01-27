@@ -1,0 +1,21 @@
+<form (ngSubmit)="doLogin()" #userForm="ngForm">
+    <div [ngClass]="{ 'has-error': userForm.submitted && !username.valid }">
+        <label for="username">Username</label>
+        <input type="text"
+          name="username" [(ngModel)]="user.username"
+            #username="ngModel" required />
+        <div *ngIf="userForm.submitted
+          && !username.valid">Username is required</div>
+    </div>
+    <div [ngClass]="{ 'has-error': userForm.submitted && !password.valid }">
+        <label for="password">Password</label>
+        <input type="password"
+          name="password" [(ngModel)]="user.password"
+            #password="ngModel" required />
+        <div *ngIf="userForm.submitted
+          && !password.valid">Password is required</div>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-info">Login</button>
+    </div>
+</form>

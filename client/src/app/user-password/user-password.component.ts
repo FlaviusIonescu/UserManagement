@@ -16,16 +16,19 @@ export class UserPasswordComponent {
       private router: Router,
       private userService: UserService) {
     this.updatePass = new UpdatePassword();
-    let username = localStorage.getItem('username');
+    let username = sessionStorage.getItem('token');
     if (username != null) {
       this.updatePass.username = username;
     } else {
-      // TODO - show error
+      alert('User is not logged in.')
     }
   }
 
   onSubmit() {
-    this.userService.changePassword(this.updatePass).subscribe(result => this.gotoUserList());
+    this.userService.changePassword(this.updatePass).subscribe(result => { 
+    
+      this.gotoUserList()
+    });
   }
 
   gotoUserList() {

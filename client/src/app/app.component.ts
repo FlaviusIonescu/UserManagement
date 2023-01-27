@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,20 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'User Management';
   
-  constructor() {
-    localStorage.setItem('username', 'flavius@home.com');
+  
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) { 
+
+  }
+
+  ngOnInit() {
+   // let token = sessionStorage.getItem('token');
+ //   if (token == '') {
+      this.router.navigate(['/login']);
+   // } else {
+  //    this.router.navigate(['/users']);
+ ///   }
   }
 }

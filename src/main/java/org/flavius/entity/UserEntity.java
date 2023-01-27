@@ -17,8 +17,11 @@ public class UserEntity {
     @Column(name = "password", length = 256, nullable = false)
     private String password;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Status status;
+    @Column(name = "role", length = 50)
+    private String role;
+
+    @Column(name = "enabled")
+    private boolean enabled;
 
     public Long getId() {
         return id;
@@ -44,11 +47,20 @@ public class UserEntity {
         this.password = password;
     }
 
-    public Status getStatus() {
-        return status;
+
+    public String getRole() {
+        return role;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

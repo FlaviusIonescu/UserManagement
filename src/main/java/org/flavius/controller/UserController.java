@@ -1,6 +1,7 @@
 package org.flavius.controller;
 
 import org.flavius.dto.ChangePasswordDto;
+import org.flavius.dto.LoginDto;
 import org.flavius.dto.UserDto;
 import org.flavius.exception.PasswordMismatchException;
 import org.flavius.exception.UserNotFoundException;
@@ -18,6 +19,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody LoginDto loginDto) throws UserNotFoundException {
+
+        userService.findByUserName(loginDto.getUsername());
+        int a = 0;
+        a++;
+        return  true;
+
+    }
 
     @GetMapping("")
     public List<UserDto> allUsers() {

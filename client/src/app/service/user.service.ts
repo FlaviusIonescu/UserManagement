@@ -10,8 +10,21 @@ export class UserService {
   private usersUrl: string;
 
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:9000/users';
+    this.usersUrl = 'http://localhost:8080/users';
   }
+
+  public logout(user: User) {
+    let params = new HttpParams();
+    params = params.append('username', user.username);
+    return this.http.post<Observable<boolean>>(this.usersUrl + '/logout', params);
+  }
+
+  public login(user: User) {
+    let params = new HttpParams();
+    params = params.append('username', user.username);
+    params = params.append('password', user.password);
+   return this.http.post<Observable<boolean>>(this.usersUrl + '/login', params);
+}
 
   public findAll(): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl);
