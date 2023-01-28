@@ -8,32 +8,32 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 
-  export class CustomInterceptor implements HttpInterceptor {
+export class CustomInterceptor implements HttpInterceptor {
 
-    private userservice: UserService;
-      constructor(
-        private router: Router,
-        userserice: UserService) {
-        this.userservice = userserice;
-      }
-  
-      intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const authReq = req.clone({ withCredentials: true });
-        authReq.headers.set('Content-Type', 'application/json')
-        return next.handle(authReq).pipe( tap(() => {},
+  private userservice: UserService;
+  constructor(
+    private router: Router,
+    userserice: UserService) {
+    this.userservice = userserice;
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const authReq = req.clone({ withCredentials: true });
+    authReq.headers.set('Content-Type', 'application/json')
+    return next.handle(authReq).pipe(tap(() => { },
       (err: any) => {
-      if (err instanceof HttpErrorResponse) {
-        if (err.status !== 401) {
-          alert(err.error)
+        if (err instanceof HttpErrorResponse) {
+          if (err.status !== 401) {
+            alert(err.error)
+            sessionStorage.clear();
+            return;
+          }
           sessionStorage.clear();
-         return;
+          alert("Unauthorized")
+          this.router.navigate(['/login']);
         }
-        sessionStorage.clear();
-        alert("Unauthorized")
-        this.router.navigate(['/login']);
-      }
-    }));
+      }));
 
   }
 
-  }
+}

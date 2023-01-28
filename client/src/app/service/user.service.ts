@@ -21,8 +21,8 @@ export class UserService {
     let params = new HttpParams();
     params = params.append('username', user.username);
     params = params.append('password', user.password);
-   return this.http.post<Observable<boolean>>(this.usersUrl + '/login', params);
-}
+    return this.http.post<Observable<boolean>>(this.usersUrl + '/login', params);
+  }
 
   public findAll(): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl);
@@ -33,7 +33,7 @@ export class UserService {
   }
 
   public toggle(username: string) {
-    return this.http.post<User>(this.usersUrl  + '/toggle', username);
+    return this.http.post<User>(this.usersUrl + '/toggle', username);
   }
 
   public delete(username: string) {
@@ -43,6 +43,14 @@ export class UserService {
   }
 
   public changePassword(pass: UpdatePassword) {
-    return this.http.post<User>(this.usersUrl  + '/change', pass);
+    return this.http.post<User>(this.usersUrl + '/change', pass);
+  }
+
+  public isLoggedIn() {
+    let token = sessionStorage.getItem('token');
+    if (token) {
+      return true;
+    }
+    return false;
   }
 }

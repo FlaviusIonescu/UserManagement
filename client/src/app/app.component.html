@@ -1,26 +1,38 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card my-5">
-        <div class="card-body" *ngIf='isLoggedIn()'>
-          <h2 class="card-title text-center text-black py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/users" class="btn btn-info">List Users</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/password" class="btn btn-info">Change Password</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/adduser" class="btn btn-info">Add User</a>
-            </li>
-            <li class="list-inline-item">
-              <button  class="btn btn-info" (click)="doLogout()">Logout</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <router-outlet></router-outlet>
+<div class="wrapper">
+
+  <div *ngIf='isLoggedIn()'>
+    <div id="greeting">
+      <h2 class="card-title text-left text-black">Hi {{ getUserName() }}, wellcome back!</h2>
     </div>
+    <nav id="sidebar" [ngClass]="{ active: isActive }">
+      <div class="sidebar-header">
+        <h3>Navigation</h3>
+      </div>
+      <ul class="list-unstyled components">
+        <li>
+          <img class="side-option" src="/assets/img/home.svg" alt="home" width="50" height="50">
+        </li>
+        <li>
+          <img src="/assets/img/users.svg" alt="users" width="50" height="50" routerLink="/users">
+        </li>
+        <li>
+          <img src="/assets/img/new_user.svg" alt="new_user" width="50" height="50" routerLink="/adduser">
+        </li>
+        <li>
+          <img src="/assets/img/change_password.svg" alt="change_password" width="50" height="50"
+            routerLink="/password">
+        </li>
+        <li>
+          <img id="icon_logout" src="/assets/img/logout.svg" alt="logout" width="50" height="50" (click)="doLogout()">
+        </li>
+      </ul>
+    </nav>
+
+
   </div>
+
+  <div id="router-content">
+    <router-outlet></router-outlet>
+  </div>
+
 </div>

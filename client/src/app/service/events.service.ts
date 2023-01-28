@@ -17,11 +17,11 @@ export class EventsService {
     if (!this.observersMap.has(obsId)) {
       this.observersMap.set(obsId, 1);
       this.credentialsEvent.subscribe((msg: string) => {
-          let arr: string[] = msg.split(",");
-          if (arr[0] == "Login") {
-            login.doLogin(arr[1], arr[2]);
-          }
-        });
+        let arr: string[] = msg.split(",");
+        if (arr[0] == "Login") {
+          login.doLogin(arr[1], arr[2]);
+        }
+      });
     }
   }
 
@@ -29,11 +29,11 @@ export class EventsService {
     if (!this.observersMap.has(obsId)) {
       this.observersMap.set(obsId, 1);
       this.credentialsEvent.subscribe((msg: string) => {
-          let arr: string[] = msg.split(",");
-          if (arr[0] == "Create User") {
-            addUserForm.doAddUser(arr[1], arr[2]);
-          }
-        });
+        let arr: string[] = msg.split(",");
+        if (arr[0] == "Create User") {
+          addUserForm.doAddUser(arr[1], arr[2]);
+        }
+      });
     }
   }
 

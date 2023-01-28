@@ -1,3 +1,7 @@
-<div class="container-fluid">
-  <app-credentials></app-credentials>
+<div class="container-fluid" *ngIf='isLoggedIn()'>
+  <div class="card my-5">
+    <div class="card-body my-2">
+      <app-credentials></app-credentials>
+    </div>
+  </div>
 </div>

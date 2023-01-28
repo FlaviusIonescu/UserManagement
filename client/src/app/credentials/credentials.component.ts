@@ -19,18 +19,18 @@ export class CredentialsComponent {
   constructor(
     @Inject(CREDENTIAL_ACTIONS) public action: string,
     private eventsService: EventsService
-    ) {
+  ) {
 
-    }
+  }
 
 
-  loginForm:FormGroup =  new FormGroup({
-    email: new FormControl('',[
+  loginForm: FormGroup = new FormGroup({
+    email: new FormControl('', [
       Validators.required,
       Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
     password: new FormControl('')
-    });
-    
+  });
+
 
   sendCredentials() {
     this.eventsService.credentialsEventEmit(
@@ -38,12 +38,12 @@ export class CredentialsComponent {
       + ","
       + this.loginForm.value.email
       + ","
-      +  this.loginForm.value.password
-      );  
+      + this.loginForm.value.password
+    );
   }
 
-get getEmail(){
-  return this.loginForm.get('email');
- }
-      
+  get getEmail() {
+    return this.loginForm.get('email');
+  }
+
 }

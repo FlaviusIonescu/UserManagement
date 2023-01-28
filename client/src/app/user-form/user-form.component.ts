@@ -18,9 +18,9 @@ import { CREDENTIAL_ACTIONS } from '../credentials/credentials.component';
 export class UserFormComponent implements OnInit {
 
   constructor(
-      private router: Router,
-      private eventService: EventsService,
-      private userService: UserService) {
+    private router: Router,
+    private eventService: EventsService,
+    private userService: UserService) {
   }
 
 
@@ -38,5 +38,9 @@ export class UserFormComponent implements OnInit {
 
   gotoUserList() {
     this.router.navigate(['/users']);
+  }
+
+  isLoggedIn() {
+    return this.userService.isLoggedIn()
   }
 }

@@ -22,9 +22,9 @@ import { CREDENTIAL_ACTIONS } from '../credentials/credentials.component';
 export class LoginComponent implements OnInit {
 
   constructor(
-      private router: Router,
-      private userService: UserService,
-      private eventService: EventsService
+    private router: Router,
+    private userService: UserService,
+    private eventService: EventsService
   ) {
 
   }
@@ -33,9 +33,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     sessionStorage.setItem('token', '');
     this.eventService.subscribeLoginComponent("login", this);
-  
+
   }
-  
+
   doLogin(username: string, password: string) {
     let user: User = new User();
     user.username = username;
@@ -49,8 +49,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/users']);
       } else {
         alert('Authentication failed.')
-      } 
+      }
     });
   }
-      
+
 }

@@ -34,4 +34,8 @@ export class UserListComponent implements OnInit {
       this.users = data;
     });
   }
+
+  isLoggedIn() {
+    return this.userService.isLoggedIn()
+  }
 }

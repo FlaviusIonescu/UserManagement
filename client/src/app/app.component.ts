@@ -10,6 +10,7 @@ import { UserService } from './service/user.service';
 })
 export class AppComponent {
   title = 'User Management';
+  sidebarActive = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,18 +29,30 @@ export class AppComponent {
     }
   }
 
+  get isActive() {
+    return this.sidebarActive;
+  }
+
+  public toggleSideBar() {
+    this.sidebarActive = !this.sidebarActive;
+  }
+
   doLogout() {
     this.userService.logout().subscribe(data => {
-        sessionStorage.clear();
-        this.router.navigate(['/login']);
+      sessionStorage.clear();
+      this.router.navigate(['/login']);
     });
   }
 
   isLoggedIn() {
+    return this.userService.isLoggedIn()
+  }
+
+  getUserName() {
     let token = sessionStorage.getItem('token');
     if (token) {
-      return true;
+      return token;
     }
-    return false;
+    return '';
   }
 }

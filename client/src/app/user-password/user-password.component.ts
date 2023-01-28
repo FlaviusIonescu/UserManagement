@@ -13,8 +13,8 @@ export class UserPasswordComponent {
   updatePass: UpdatePassword;
 
   constructor(private route: ActivatedRoute,
-      private router: Router,
-      private userService: UserService) {
+    private router: Router,
+    private userService: UserService) {
     this.updatePass = new UpdatePassword();
     let username = sessionStorage.getItem('token');
     if (username != null) {
@@ -25,8 +25,8 @@ export class UserPasswordComponent {
   }
 
   onSubmit() {
-    this.userService.changePassword(this.updatePass).subscribe(result => { 
-    
+    this.userService.changePassword(this.updatePass).subscribe(result => {
+
       this.gotoUserList()
     });
   }
@@ -34,4 +34,10 @@ export class UserPasswordComponent {
   gotoUserList() {
     this.router.navigate(['/users']);
   }
+
+  
+  isLoggedIn() {
+    return this.userService.isLoggedIn()
+  }
+  
 }
