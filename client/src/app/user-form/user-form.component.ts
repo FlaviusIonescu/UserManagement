@@ -1,25 +1,39 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
 import { User } from '../model/user';
+import { EventsService } from '../service/events.service';
+import { CREDENTIAL_ACTIONS } from '../credentials/credentials.component';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.css']
+  styleUrls: ['./user-form.component.css'],
+  providers: [
+    {
+      provide: CREDENTIAL_ACTIONS,
+      useValue: "Create User"
+    }]
 })
-export class UserFormComponent {
+export class UserFormComponent implements OnInit {
 
-  user: User;
-
-  constructor(private route: ActivatedRoute,
+  constructor(
       private router: Router,
+      private eventService: EventsService,
       private userService: UserService) {
-    this.user = new User();
   }
 
-  onSubmit() {
-    this.userService.save(this.user).subscribe(result => this.gotoUserList());
+
+  ngOnInit() {
+    this.eventService.subscribeAddUserComponent("Create user", this);
+  }
+
+
+  public doAddUser(username: string, password: string) {
+    var user: User = new User();
+    user.username = username;
+    user.password = password;
+    this.userService.save(user).subscribe(result => this.gotoUserList());
   }
 
   gotoUserList() {

@@ -10,6 +10,7 @@ import { UserService } from './service/user.service';
 import { UserPasswordComponent } from './user-password/user-password.component';
 import { LoginComponent } from './login/login.component';
 import { CustomInterceptor } from './service/custom-interceptor.service';
+import { CredentialsComponent } from './credentials/credentials.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { CustomInterceptor } from './service/custom-interceptor.service';
     UserListComponent,
     UserFormComponent,
     UserPasswordComponent,
-    LoginComponent
+    LoginComponent,
+    CredentialsComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,9 @@ import { CustomInterceptor } from './service/custom-interceptor.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService,
+  providers: [
+    CredentialsComponent,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CustomInterceptor,

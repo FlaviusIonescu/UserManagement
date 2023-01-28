@@ -1,25 +1,3 @@
 <div class="container-fluid">
-  <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
-    <h2>Login details</h2>
-  
-    <div class="form-group">
-      <label>Email:</label>
-      <input [class.is-invalid] = "getEmail?.touched && getEmail?.invalid"
-	    type="email" class="form-control" formControlName="email" />
-    </div>'
-    
-    <div *ngIf="(getEmail?.invalid && getEmail?.touched) || getEmail?.dirty">
-    	<small *ngIf="getEmail?.errors?['required']: false" class="text-danger">Primary email is required.</small>
-    	<small *ngIf="getEmail?.errors?['pattern'] : false" class="text-danger">Please provide a valid email address.</small>
-  	</div>
-
-    <div class="form-group">
-      <label>Password:</label>
-      <input type="password" class="form-control" formControlName="password"/>
-    </div>
-  
-    <br>
-    <div>
-        <button type="submit" class="btn btn-info">Login</button>
-    </div>
-</form>
+  <app-credentials></app-credentials>
+</div>
