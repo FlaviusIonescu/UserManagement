@@ -1,0 +1,57 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3.8'
+
+# Define services
+services:
+  # backend service
+  app-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5555/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    networks:
+      - backend
+      - frontend
+
+  # Frontend Service
+  app-client:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend
+
+  # Database Service
+  db:
+    build:
+      context: db
+      dockerfile: Dockerfile
+    environment:
+      - PGPORT=5555
+      - POSTGRES_PORT=5555
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5555:5555"
+    restart: always
+    networks:
+      - backend
+
+
+networks:
+  backend:
+  frontend:

@@ -20,6 +20,7 @@ export class CustomInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authReq = req.clone({ withCredentials: true });
     authReq.headers.set('Content-Type', 'application/json')
+    authReq.headers.set('Access-Control-Allow-Origin', 'true')
     return next.handle(authReq).pipe(tap(() => { },
       (err: any) => {
         if (err instanceof HttpErrorResponse) {
