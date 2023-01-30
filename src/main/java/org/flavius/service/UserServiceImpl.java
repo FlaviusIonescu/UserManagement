@@ -20,10 +20,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    protected UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserEntity findByUserName(String username) throws UserNotFoundException {
@@ -47,21 +52,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void create(String username, String password) {
-        //TODO - email matcher for username
+    public UserEntity create(String username, String password) {
         UserEntity entity = new UserEntity();
         entity.setUsername(username);
         entity.setPassword(passwordEncoder.encode(password));
         entity.setEnabled(true);
         entity.setRole("ROLE_ADMIN");
-        userRepository.save(entity);
+        return userRepository.save(entity);
     }
 
     @Override
     @Transactional
-    public void toggleStatus(String username) throws UserNotFoundException {
+    public UserEntity toggleStatus(String username) throws UserNotFoundException {
         UserEntity entity = this.findByUserName(username);
         entity.setEnabled(!entity.isEnabled());
+        return entity;
     }
 
     @Override
@@ -73,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword)
+    public UserEntity updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword)
             throws UserNotFoundException, PasswordMismatchException, WrongCredentialsException {
         if (!confirmedPassword.equals(newPassword)) {
             throw new PasswordMismatchException();
@@ -86,6 +91,7 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(newPassword, entity.getPassword())) {
             entity.setPassword(passwordEncoder.encode(newPassword));
         }
+        return entity;
     }
 
 }

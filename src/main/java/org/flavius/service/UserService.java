@@ -9,17 +9,17 @@ import org.flavius.exception.WrongCredentialsException;
 import java.util.List;
 
 public interface UserService {
-    // TODO use user DTOs for return
+
     UserEntity findByUserName(String username) throws UserNotFoundException;
 
     List<UserDto> findAll();
 
-    void create(String username, String password);
+    UserEntity create(String username, String password);
 
-    void updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword)
+    UserEntity updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword)
             throws PasswordMismatchException, UserNotFoundException, WrongCredentialsException;
 
-    void toggleStatus(String username) throws UserNotFoundException;
+    UserEntity toggleStatus(String username) throws UserNotFoundException;
 
     void delete(String username) throws UserNotFoundException;
 }
