@@ -2,6 +2,7 @@ package org.flavius.controller;
 
 
 import org.flavius.dto.UserDto;
+import org.flavius.exception.UserAlreadyExistsException;
 import org.flavius.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void should_create_user() {
+    public void should_create_user() throws UserAlreadyExistsException {
         // given
         UserDto userDto = new UserDto();
         userDto.setUsername("user1");

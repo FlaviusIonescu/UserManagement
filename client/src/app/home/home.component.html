@@ -1,0 +1,29 @@
+<div class="container-fluid" *ngIf='isLoggedIn()'>
+    <div class="card my-5">
+        <div class="card-body my-2">
+            <h3> Welcome to User Management</h3>
+            <p> Using this application a logged in user can create users, toggle users active/disabled and change his
+                password. </p>
+            <div class="icon_text">
+                <img src="/assets/img/home.svg" width="50" height="50">
+                <p class="sub_text"> Shows this screen</p>
+            </div>
+            <div class="icon_text">
+                <img src="/assets/img/users.svg" width="50" height="50">
+                <p class="sub_text"> Displays all users</p>
+            </div>
+            <div class="icon_text">
+                <img src="/assets/img/new_user.svg" width="50" height="50">
+                <p class="sub_text"> Navigates to add user form</p>
+            </div>
+            <div class="icon_text">
+                <img src="/assets/img/change_password.svg" width="50" height="50">
+                <p class="sub_text"> Navigates to change password form</p>
+            </div>
+            <div class="icon_text">
+                <img src="/assets/img/logout.svg" width="50" height="50">
+                <p class="sub_text"> Disconnects current user</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ package org.flavius.service;
 import org.flavius.dto.UserDto;
 import org.flavius.entity.UserEntity;
 import org.flavius.exception.PasswordMismatchException;
+import org.flavius.exception.UserAlreadyExistsException;
 import org.flavius.exception.UserNotFoundException;
 import org.flavius.exception.WrongCredentialsException;
 
@@ -14,7 +15,7 @@ public interface UserService {
 
     List<UserDto> findAll();
 
-    UserEntity create(String username, String password);
+    UserEntity create(String username, String password) throws UserAlreadyExistsException;
 
     UserEntity updatePassword(String username, String oldPassword, String newPassword, String confirmedPassword)
             throws PasswordMismatchException, UserNotFoundException, WrongCredentialsException;

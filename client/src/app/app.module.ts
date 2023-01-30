@@ -11,6 +11,7 @@ import { UserPasswordComponent } from './user-password/user-password.component';
 import { LoginComponent } from './login/login.component';
 import { CustomInterceptor } from './service/custom-interceptor.service';
 import { CredentialsComponent } from './credentials/credentials.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { CredentialsComponent } from './credentials/credentials.component';
     UserFormComponent,
     UserPasswordComponent,
     LoginComponent,
-    CredentialsComponent
+    CredentialsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

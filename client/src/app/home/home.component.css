@@ -1,0 +1,8 @@
+.icon_text {
+    display: flex;
+    vertical-align: middle;
+}
+.icon_text .sub_text {
+    margin-top: 10px;
+    margin-left: 10px;
+}

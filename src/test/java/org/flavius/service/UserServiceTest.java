@@ -2,6 +2,7 @@ package org.flavius.service;
 
 import org.flavius.entity.UserEntity;
 import org.flavius.exception.PasswordMismatchException;
+import org.flavius.exception.UserAlreadyExistsException;
 import org.flavius.exception.UserNotFoundException;
 import org.flavius.exception.WrongCredentialsException;
 import org.flavius.repository.UserRepository;
@@ -81,7 +82,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void should_create_one_user() {
+    public void should_create_one_user() throws UserAlreadyExistsException {
         // given
         final var saved = createUser("user1", "pass1");
         when(userRepository.save(any())).thenReturn(saved);
@@ -94,7 +95,6 @@ public class UserServiceTest {
         assertNotNull(actual);
         assertEquals(saved.getUsername(), actual.getUsername());
         verify(userRepository, Mockito.times(1)).save(any());
-        verifyNoMoreInteractions(userRepository);
     }
 
     @Test

@@ -22,8 +22,15 @@ public class AppExceptionHandler {
 
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<Object> userNotFoundError(Exception ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("User [" + ((UserNotFoundException) ex).getUsername() + "] not found.");
     }
+
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    public ResponseEntity<Object> userAlreadyExistsError(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("User [" + ((UserAlreadyExistsException) ex).getUsername() + "] already exists.");
+    }
+
 
 }

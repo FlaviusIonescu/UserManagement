@@ -32,12 +32,12 @@ export class UserPasswordComponent {
   }
 
   gotoUserList() {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/home']);
   }
 
-  
+
   isLoggedIn() {
     return this.userService.isLoggedIn()
   }
-  
+
 }

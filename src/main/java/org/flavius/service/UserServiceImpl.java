@@ -4,6 +4,7 @@ import org.flavius.dto.UserDto;
 import org.flavius.entity.Status;
 import org.flavius.entity.UserEntity;
 import org.flavius.exception.PasswordMismatchException;
+import org.flavius.exception.UserAlreadyExistsException;
 import org.flavius.exception.UserNotFoundException;
 import org.flavius.exception.WrongCredentialsException;
 import org.flavius.repository.UserRepository;
@@ -52,7 +53,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserEntity create(String username, String password) {
+    public UserEntity create(String username, String password) throws UserAlreadyExistsException {
+        UserEntity check = userRepository.findByUsername(username);
+        if (check != null) {
+            throw new UserAlreadyExistsException(username);
+        }
         UserEntity entity = new UserEntity();
         entity.setUsername(username);
         entity.setPassword(passwordEncoder.encode(password));

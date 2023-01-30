@@ -26,12 +26,12 @@ export class CustomInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse) {
           if (err.status !== 401) {
             alert(err.error)
+            this.router.navigate(['/home']);
+          } else {
             sessionStorage.clear();
-            return;
+            alert("Unauthorized")
+            this.router.navigate(['/login']);
           }
-          sessionStorage.clear();
-          alert("Unauthorized")
-          this.router.navigate(['/login']);
         }
       }));
 

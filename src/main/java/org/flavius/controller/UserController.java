@@ -4,6 +4,7 @@ import org.flavius.dto.ChangePasswordDto;
 import org.flavius.dto.LoginDto;
 import org.flavius.dto.UserDto;
 import org.flavius.exception.PasswordMismatchException;
+import org.flavius.exception.UserAlreadyExistsException;
 import org.flavius.exception.UserNotFoundException;
 import org.flavius.exception.WrongCredentialsException;
 import org.flavius.service.UserService;
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    void createUser(@RequestBody UserDto userDto) {
+    void createUser(@RequestBody UserDto userDto) throws UserAlreadyExistsException {
         userService.create(userDto.getUsername(), userDto.getPassword());
     }
 

@@ -23,7 +23,7 @@ export class AppComponent {
   ngOnInit() {
     let token = sessionStorage.getItem('token');
     if (token) {
-      this.router.navigate(['/users']);
+      this.router.navigate(['/home']);
     } else {
       this.router.navigate(['/login']);
     }
